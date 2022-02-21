@@ -2,4 +2,8 @@
 target/
 *.properties
 *.class
+<<<<<<< HEAD
 bin/
+=======
+bin/
+>>>>>>> 1e85647033992bc40eee483e13aedfce869f1525
