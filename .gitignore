@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 .metadata/
 target/
 *.properties
 *.class
 bin/
-=======
-/.metadata/
->>>>>>> daf47aa484ebd43b3cfa5ea5ccd5cfad22356b77
