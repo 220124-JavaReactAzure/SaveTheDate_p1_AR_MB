@@ -12,17 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.saveTheDate.models.Wedding;
-import com.revature.saveTheDate.services.WeddingServices;
+import com.revature.saveTheDate.models.Role;
+import com.revature.saveTheDate.services.RoleServices;
 
+public class RoleServlet extends HttpServlet{
 
-public class WeddingServlet extends HttpServlet{
-	
-	private final WeddingServices weddingServices;
+	private final RoleServices roleServices;
 	private final ObjectMapper mapper;
 	
-	public WeddingServlet(WeddingServices weddingServices, ObjectMapper mapper) {
-		this.weddingServices = weddingServices;
+	public RoleServlet(RoleServices roleServices, ObjectMapper mapper) {
+		this.roleServices = roleServices;
 		this.mapper = mapper;
 	}
 	
@@ -30,28 +29,28 @@ public class WeddingServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
-		// Obtains everything after the /weddings
+		// Obtains everything after the /roles
 		String path = req.getPathInfo();
 		if(path == null) path = "";
 		switch(path) {
 		case "/ID":
 			try {
-				String idParam = req.getParameter("weddingId");
+				String idParam = req.getParameter("roleId");
 				if(idParam == null) {
 					resp.setStatus(400);
-					writer.write("Please include the query ?weddingId=# in your url");
+					writer.write("Please include the query ?roleId=# in your url");
 					return;
 				}
 				
-				int weddingId = Integer.valueOf(idParam);
+				int roleId = Integer.valueOf(idParam);
 				
 			
-				Wedding wedding = weddingServices.getWeddingById(weddingId);
-				if(wedding == null) {
+				Role role = roleServices.getRoleById(roleId);
+				if(role == null) {
 					resp.setStatus(500);
 					return;
 				}
-				String payload = mapper.writeValueAsString(wedding);
+				String payload = mapper.writeValueAsString(role);
 				writer.write(payload);
 				resp.setStatus(200);
 			} catch (StreamReadException | DatabindException e) {
@@ -59,8 +58,8 @@ public class WeddingServlet extends HttpServlet{
 			}
 			break;
 		default:
-			List<Wedding> weddings = weddingServices.getAllWeddings();
-			String payload = mapper.writeValueAsString(weddings);
+			List<Role> roles = roleServices.getAllRoles();
+			String payload = mapper.writeValueAsString(roles);
 			writer.write(payload);
 			resp.setStatus(200);
 			break;
@@ -71,8 +70,8 @@ public class WeddingServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
-			Wedding newWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			boolean wasReg = weddingServices.addWedding(newWedding);
+			Role newRole = mapper.readValue(req.getInputStream(), Role.class);
+			boolean wasReg = roleServices.addRole(newRole);
 			if(wasReg) {
 				resp.setStatus(201);
 			} else {
@@ -93,9 +92,9 @@ public class WeddingServlet extends HttpServlet{
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Wedding updatedWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			//weddingServices.updateWeddingWithHQL(updatedWedding);
-			weddingServices.updateWeddingWithSessionMethod(updatedWedding);
+			Role updatedRole = mapper.readValue(req.getInputStream(), Role.class);
+
+			roleServices.updateRoleWithSessionMethod(updatedRole);
 			resp.setStatus(204);	
 		} catch (StreamReadException | DatabindException e) {
 			resp.setStatus(400);
@@ -113,5 +112,4 @@ public class WeddingServlet extends HttpServlet{
 		// TODO Auto-generated method stub
 		super.doDelete(req, resp);
 	}
-
 }

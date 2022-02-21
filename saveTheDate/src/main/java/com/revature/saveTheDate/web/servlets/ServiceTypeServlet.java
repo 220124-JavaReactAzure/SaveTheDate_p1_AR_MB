@@ -12,17 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.saveTheDate.models.Wedding;
-import com.revature.saveTheDate.services.WeddingServices;
+import com.revature.saveTheDate.models.ServiceType;
+import com.revature.saveTheDate.services.ServiceTypeServices;
 
+public class ServiceTypeServlet extends HttpServlet{
 
-public class WeddingServlet extends HttpServlet{
-	
-	private final WeddingServices weddingServices;
+	private final ServiceTypeServices serviceTypeServices;
 	private final ObjectMapper mapper;
 	
-	public WeddingServlet(WeddingServices weddingServices, ObjectMapper mapper) {
-		this.weddingServices = weddingServices;
+	public ServiceTypeServlet(ServiceTypeServices serviceTypeServices, ObjectMapper mapper) {
+		this.serviceTypeServices = serviceTypeServices;
 		this.mapper = mapper;
 	}
 	
@@ -36,22 +35,22 @@ public class WeddingServlet extends HttpServlet{
 		switch(path) {
 		case "/ID":
 			try {
-				String idParam = req.getParameter("weddingId");
+				String idParam = req.getParameter("serviceTypeId");
 				if(idParam == null) {
 					resp.setStatus(400);
-					writer.write("Please include the query ?weddingId=# in your url");
+					writer.write("Please include the query ?serviceTypeId=# in your url");
 					return;
 				}
 				
-				int weddingId = Integer.valueOf(idParam);
+				int serviceTypeId = Integer.valueOf(idParam);
 				
 			
-				Wedding wedding = weddingServices.getWeddingById(weddingId);
-				if(wedding == null) {
+				ServiceType serviceType = serviceTypeServices.getServiceTypeById(serviceTypeId);
+				if(serviceType == null) {
 					resp.setStatus(500);
 					return;
 				}
-				String payload = mapper.writeValueAsString(wedding);
+				String payload = mapper.writeValueAsString(serviceType);
 				writer.write(payload);
 				resp.setStatus(200);
 			} catch (StreamReadException | DatabindException e) {
@@ -59,8 +58,8 @@ public class WeddingServlet extends HttpServlet{
 			}
 			break;
 		default:
-			List<Wedding> weddings = weddingServices.getAllWeddings();
-			String payload = mapper.writeValueAsString(weddings);
+			List<ServiceType> serviceTypes = serviceTypeServices.getAllServiceTypes();
+			String payload = mapper.writeValueAsString(serviceTypes);
 			writer.write(payload);
 			resp.setStatus(200);
 			break;
@@ -71,8 +70,8 @@ public class WeddingServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
-			Wedding newWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			boolean wasReg = weddingServices.addWedding(newWedding);
+			ServiceType newServiceType = mapper.readValue(req.getInputStream(), ServiceType.class);
+			boolean wasReg = serviceTypeServices.addServiceType(newServiceType);
 			if(wasReg) {
 				resp.setStatus(201);
 			} else {
@@ -93,9 +92,9 @@ public class WeddingServlet extends HttpServlet{
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Wedding updatedWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			//weddingServices.updateWeddingWithHQL(updatedWedding);
-			weddingServices.updateWeddingWithSessionMethod(updatedWedding);
+			ServiceType updatedServiceType = mapper.readValue(req.getInputStream(), ServiceType.class);
+
+			serviceTypeServices.updateServiceTypeWithSessionMethod(updatedServiceType);
 			resp.setStatus(204);	
 		} catch (StreamReadException | DatabindException e) {
 			resp.setStatus(400);

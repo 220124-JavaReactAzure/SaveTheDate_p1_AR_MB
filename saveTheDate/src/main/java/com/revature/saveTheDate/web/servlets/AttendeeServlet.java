@@ -12,17 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.saveTheDate.models.Wedding;
-import com.revature.saveTheDate.services.WeddingServices;
+import com.revature.saveTheDate.models.Attendee;
+import com.revature.saveTheDate.services.AttendeeServices;
 
-
-public class WeddingServlet extends HttpServlet{
+public class AttendeeServlet extends HttpServlet{
 	
-	private final WeddingServices weddingServices;
+	private final AttendeeServices attendeeServices;
 	private final ObjectMapper mapper;
 	
-	public WeddingServlet(WeddingServices weddingServices, ObjectMapper mapper) {
-		this.weddingServices = weddingServices;
+	public AttendeeServlet(AttendeeServices attendeeServices, ObjectMapper mapper) {
+		this.attendeeServices = attendeeServices;
 		this.mapper = mapper;
 	}
 	
@@ -30,28 +29,28 @@ public class WeddingServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
-		// Obtains everything after the /weddings
+		// Obtains everything after the /attendees
 		String path = req.getPathInfo();
 		if(path == null) path = "";
 		switch(path) {
 		case "/ID":
 			try {
-				String idParam = req.getParameter("weddingId");
+				String idParam = req.getParameter("attendeeId");
 				if(idParam == null) {
 					resp.setStatus(400);
-					writer.write("Please include the query ?weddingId=# in your url");
+					writer.write("Please include the query ?attendeeId=# in your url");
 					return;
 				}
 				
-				int weddingId = Integer.valueOf(idParam);
+				int attendeeId = Integer.valueOf(idParam);
 				
 			
-				Wedding wedding = weddingServices.getWeddingById(weddingId);
-				if(wedding == null) {
+				Attendee attendee = attendeeServices.getAttendeeById(attendeeId);
+				if(attendee == null) {
 					resp.setStatus(500);
 					return;
 				}
-				String payload = mapper.writeValueAsString(wedding);
+				String payload = mapper.writeValueAsString(attendee);
 				writer.write(payload);
 				resp.setStatus(200);
 			} catch (StreamReadException | DatabindException e) {
@@ -59,8 +58,8 @@ public class WeddingServlet extends HttpServlet{
 			}
 			break;
 		default:
-			List<Wedding> weddings = weddingServices.getAllWeddings();
-			String payload = mapper.writeValueAsString(weddings);
+			List<Attendee> attendees = attendeeServices.getAllAttendees();
+			String payload = mapper.writeValueAsString(attendees);
 			writer.write(payload);
 			resp.setStatus(200);
 			break;
@@ -71,8 +70,8 @@ public class WeddingServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
-			Wedding newWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			boolean wasReg = weddingServices.addWedding(newWedding);
+			Attendee newAttendee = mapper.readValue(req.getInputStream(), Attendee.class);
+			boolean wasReg = attendeeServices.addAttendee(newAttendee);
 			if(wasReg) {
 				resp.setStatus(201);
 			} else {
@@ -93,9 +92,9 @@ public class WeddingServlet extends HttpServlet{
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			Wedding updatedWedding = mapper.readValue(req.getInputStream(), Wedding.class);
-			//weddingServices.updateWeddingWithHQL(updatedWedding);
-			weddingServices.updateWeddingWithSessionMethod(updatedWedding);
+			Attendee updatedAttendee = mapper.readValue(req.getInputStream(), Attendee.class);
+
+			attendeeServices.updateAttendeeWithSessionMethod(updatedAttendee);
 			resp.setStatus(204);	
 		} catch (StreamReadException | DatabindException e) {
 			resp.setStatus(400);
@@ -110,7 +109,7 @@ public class WeddingServlet extends HttpServlet{
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+b
 		super.doDelete(req, resp);
 	}
 
