@@ -31,20 +31,21 @@ private final UserDAO userDAO;
 		return userDAO.getUserById(id);
 	}
 	
-	//TODO: Impelement authentication
+
 //	public User authenticateUser(String username, String password) {
 //		
 //		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
 //			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
 //		}
 //		
-//		User authenticatedScientist = userDAO.findByUsernameAndPassword(username, password);
+//		User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
 //		
-//		if(authenticatedScientist == null) {
+//		if(authenticatedUser == null) {
 //			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
 //		}
-//		return authenticatedScientist;
+//		return authenticatedUser;
 //	}
+
 
 	public boolean isUserValid(User newUser) {
 		if(newUser == null) return false;
