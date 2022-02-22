@@ -27,7 +27,7 @@ private final UserDao userDao;
 			}
 		}
 		
-		User persistedScientist = userDao.create(newUser);
+		User persistedUser = userDao.create(newUser);
 		
 		if(persistedUser == null) {
 			throw new ResourcePersistenceException("The User could not be persisted");
@@ -47,12 +47,12 @@ private final UserDao userDao;
 			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
 		}
 		
-		User authenticatedScientist = userDao.findByUsernameAndPassword(username, password);
+		User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
 		
-		if(authenticatedScientist == null) {
+		if(authenticatedUser == null) {
 			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
 		}
-		return authenticatedScientist;
+		return authenticatedUser;
 	}
 
 	public boolean isUserValid(User newUser) {
