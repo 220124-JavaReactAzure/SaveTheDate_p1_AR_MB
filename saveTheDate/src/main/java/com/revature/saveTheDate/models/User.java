@@ -28,6 +28,19 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
+	@Column(name="first_name")
+	private String firstName;
+	
+	@Column(name="last_name")
+	private String lastName;
+	
+	@Column(name="phone")
+	private String phone;
+	
+	@Column(name="address")
+	private String address;
+	
+	
 	public User(int id, int role_id, String username, String password, String email, String phone, String address) {
 		super();
 		this.id = id;
@@ -37,6 +50,36 @@ public class User {
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
+	}
+
+	public User(int id, int role_id, String username, String password, String email, String firstName, String lastName,
+			String phone, String address) {
+		super();
+		this.id = id;
+		this.role_id = role_id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.address = address;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public User() {
@@ -97,15 +140,6 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	@Column(name="phone")
-	private String phone;
-	
-	@Column(name="address")
-	private String address;
-	
-	
-	
+	}	
 
 }

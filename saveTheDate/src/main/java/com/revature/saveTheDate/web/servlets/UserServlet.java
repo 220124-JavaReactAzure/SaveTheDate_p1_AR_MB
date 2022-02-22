@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.saveTheDate.models.User;
+import com.revature.saveTheDate.services.UserServices;
 
 public class UserServlet extends HttpServlet{
 	

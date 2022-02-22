@@ -81,9 +81,11 @@ public class WeddingDAO {
 		}
 	}*/
 	
-	public void deleteWedding(int id) {
+	public void deleteWeddingById(int id) {
 		try {
 			Session session = HibernateUtil.getSession();
+			session.delete(id);
+			session.remove(id);
 		} catch (HibernateException | IOException e) {
 			e.printStackTrace();
 		} finally {

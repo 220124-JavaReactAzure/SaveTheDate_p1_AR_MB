@@ -19,7 +19,7 @@ public class ServiceServices {
 		return serviceDAO.addService(service);
 	}
 
-	public List<Service> getAllService() {
+	public List<Service> getAllServices() {
 		return serviceDAO.getAllService();
 
 	}

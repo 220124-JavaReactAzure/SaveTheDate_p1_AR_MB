@@ -5,7 +5,7 @@ import java.util.List;
 import com.revature.saveTheDate.daos.AttendeeDAO;
 import com.revature.saveTheDate.models.Attendee;
 
-public class AtendeeServices {
+public class AttendeeServices {
 
 	private final AttendeeDAO attendeeDAO;
 
@@ -33,8 +33,8 @@ public class AtendeeServices {
 		attendeeDAO.updateAttendeeWithSessionMethod(attendee);
 	}
 	
-	public void deleteAttendee (int id) {
-		attendeeDAO.deleteAttendee(id);
+	public void deleteAttendeeById (int id) {
+		attendeeDAO.deleteAttendeeById(id);
 	}
 
 	

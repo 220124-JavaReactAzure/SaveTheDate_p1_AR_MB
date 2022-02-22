@@ -1,59 +1,50 @@
-package com.revature.save_the_date.services;
+package com.revature.saveTheDate.services;
 
-public class UserService {
+import java.util.List;
+
+import com.revature.saveTheDate.daos.UserDAO;
+import com.revature.saveTheDate.models.Attendee;
+import com.revature.saveTheDate.models.User;
+import com.revature.saveTheDate.models.Wedding;
+
+public class UserServices {
 	
-private final UserDao userDao;
+private final UserDAO userDAO;
 	
 	// DI - Dependency Injection of the DAO
-	public UserService(UserDAO userDAO) {
-		this.userDao = userDAO;
+	public UserServices(UserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 	
-	public User registerNewUser(User newUser) {
-		if(!isUserValid(newUser)) {
-			throw new InvalidRequestException("Invalid user data provider");
-		}
+	public boolean addUser(User newUser) {
+		
+		return userDAO.addUser(newUser);
+	}
+	
+	public List<User> getAllUsers() {
+		return userDAO.getAllUsers();
 
-		boolean usernameAvailable = userDao.findByUsername(newUser.getUsername()) == null;
-		boolean emailAvailable = userDao.findByEmail(newUser.getEmail()) == null;
-		
-		if(!usernameAvailable || !emailAvailable) {
-			if(!usernameAvailable && emailAvailable) {
-				throw new ResourcePersistenceException("The provided username was already taken in the database");
-			} else if(usernameAvailable) {
-				throw new ResourcePersistenceException("The provided email was already taken in the database");
-			} else {
-				throw new ResourcePersistenceException("The provided username and email were already taken in the database");
-			}
-		}
-		
-		User persistedScientist = userDao.create(newUser);
-		
-		if(persistedUser == null) {
-			throw new ResourcePersistenceException("The User could not be persisted");
-		}
-		
-		return persistedUser;
 	}
 	
-	public List<User> getAllUsers(){
-		return userDao.findAll();	
+	public User getUserById(int id) {
+
+		return userDAO.getUserById(id);
 	}
 	
 	//TODO: Impelement authentication
-	public User authenticateUser(String username, String password) {
-		
-		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
-			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
-		}
-		
-		User authenticatedScientist = userDao.findByUsernameAndPassword(username, password);
-		
-		if(authenticatedScientist == null) {
-			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
-		}
-		return authenticatedScientist;
-	}
+//	public User authenticateUser(String username, String password) {
+//		
+//		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
+//			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
+//		}
+//		
+//		User authenticatedScientist = userDAO.findByUsernameAndPassword(username, password);
+//		
+//		if(authenticatedScientist == null) {
+//			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
+//		}
+//		return authenticatedScientist;
+//	}
 
 	public boolean isUserValid(User newUser) {
 		if(newUser == null) return false;
@@ -62,10 +53,12 @@ private final UserDao userDao;
 		if(newUser.getEmail() == null || newUser.getEmail().trim().equals("")) return false;
 		if(newUser.getUsername() == null || newUser.getUsername().trim().equals("")) return false;
 		return newUser.getPassword() != null && !newUser.getPassword().trim().equals("");
+	}
+	
+	public void updateUserWithSessionMethod(User user) {
 
-
+		userDAO.updateUserWithSessionMethod(user);
 	}
 	
 }
 
-}

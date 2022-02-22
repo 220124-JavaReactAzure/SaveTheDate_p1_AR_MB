@@ -30,7 +30,7 @@ private final ServiceTypeDAO serviceTypeDAO;
 	}
 	
 	
-	public void updateDirectorWithSessionMethod(ServiceType serviceType) {
+	public void updateServiceTypeWithSessionMethod(ServiceType serviceType) {
 		
 		serviceTypeDAO.updateServiceTypeWithSessionMethod(serviceType);
 	}
@@ -39,4 +39,8 @@ private final ServiceTypeDAO serviceTypeDAO;
 		
 		serviceTypeDAO.updateServiceTypeWithHQL(serviceType);
 	}*/
+	
+	public void deleteServiceTypeById(int id) {
+		serviceTypeDAO.deleteServiceTypeById(id);
+	}
 }

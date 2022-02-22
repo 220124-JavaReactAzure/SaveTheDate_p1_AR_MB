@@ -19,7 +19,7 @@ public class RoleServices {
 		return roleDAO.addRole(role);
 	}
 
-	public List<Role> getAllRole() {
+	public List<Role> getAllRoles() {
 		return roleDAO.getAllRole();
 
 	}

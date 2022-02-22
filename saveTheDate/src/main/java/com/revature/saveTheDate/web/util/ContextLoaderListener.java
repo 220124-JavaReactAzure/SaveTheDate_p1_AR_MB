@@ -59,12 +59,12 @@ public class ContextLoaderListener implements ServletContextListener{
 		
 		ServletContext context = sce.getServletContext();
 		context.addServlet("WeddingServlet", weddingServlet).addMapping("/weddings/*");
-		context.addServlet("ServiceServlet", weddingServlet).addMapping("/services/*");
-		context.addServlet("UserServlet", weddingServlet).addMapping("/users/*");
-		context.addServlet("DinnerServlet", weddingServlet).addMapping("/dinners/*");
-		context.addServlet("ServiceTypeServlet", weddingServlet).addMapping("/serviceTypes/*");
-		context.addServlet("AttendeeServlet", weddingServlet).addMapping("/attendees/*");
-		context.addServlet("RoleServlet", weddingServlet).addMapping("/roles/*");
+		context.addServlet("ServiceServlet", serviceServlet).addMapping("/services/*");
+		context.addServlet("UserServlet", userServlet).addMapping("/users/*");
+		context.addServlet("DinnerServlet", dinnerServlet).addMapping("/dinners/*");
+		context.addServlet("ServiceTypeServlet", serviceTypeServlet).addMapping("/serviceTypes/*");
+		context.addServlet("AttendeeServlet", attendeeServlet).addMapping("/attendees/*");
+		context.addServlet("RoleServlet", roleServlet).addMapping("/roles/*");
 		
 	}
 	

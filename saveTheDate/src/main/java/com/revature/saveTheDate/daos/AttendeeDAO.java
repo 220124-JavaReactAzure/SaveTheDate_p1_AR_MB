@@ -67,7 +67,7 @@ public class AttendeeDAO {
 	}
 	
 	//todo
-	public void deleteAttendeeType(int id) {
+	public void deleteAttendeeById(int id) {
 		try {
 			Session session = HibernateUtil.getSession();
 		} catch (HibernateException | IOException e) {

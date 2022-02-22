@@ -109,8 +109,21 @@ public class AttendeeServlet extends HttpServlet{
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-b
-		super.doDelete(req, resp);
+		
+		PrintWriter writer = resp.getWriter();
+			
+			String idParam = req.getParameter("attendeeId");
+			if(idParam == null) {
+				resp.setStatus(400);
+				writer.write("Please include the query ?attendeeId=# in your url");
+				return;
+			}
+			
+			int attendeeId = Integer.valueOf(idParam);
+			attendeeServices.deleteAttendeeById(attendeeId);
+
+			resp.setStatus(200);
+
+		}
 	}
 
-}

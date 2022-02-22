@@ -67,9 +67,11 @@ public class ServiceTypeDAO {
 	}
 	
 	//todo
-	public void deleteServiceType(int id) {
+	public void deleteServiceTypeById(int id) {
 		try {
 			Session session = HibernateUtil.getSession();
+			session.delete(id);
+
 		} catch (HibernateException | IOException e) {
 			e.printStackTrace();
 		} finally {

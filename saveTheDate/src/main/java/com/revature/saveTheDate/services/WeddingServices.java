@@ -34,12 +34,9 @@ public class WeddingServices {
 		weddingDAO.updateWeddingWithSessionMethod(wedding);
 	}
 		
-	public void updateWeddingWithHQL(Wedding wedding) {
-		weddingDAO.updatedWeddingWithHQL(wedding);
-	}
 	
-	public void deleteWedding (int id) {
-		weddingDAO.deleteWedding(id);
+	public void deleteWeddingById (int id) {
+		weddingDAO.deleteWeddingById(id);
 	}
 
 }
