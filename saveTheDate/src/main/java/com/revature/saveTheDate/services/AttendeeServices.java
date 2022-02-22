@@ -1,4 +1,4 @@
-Package com.revature.saveTheDate.services;
+package com.revature.saveTheDate.services;
 
 import java.util.List;
 
