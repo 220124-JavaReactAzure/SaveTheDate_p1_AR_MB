@@ -17,8 +17,10 @@ private final UserDAO userDAO;
 	}
 	
 	public boolean addUser(User newUser) {
-		
-		return userDAO.addUser(newUser);
+		if (isUserEmailValid(newUser) && isUserUsernameValid(newUser)){
+			return userDAO.addUser(newUser);
+		}
+		return false;	
 	}
 	
 	public List<User> getAllUsers() {
@@ -47,13 +49,20 @@ private final UserDAO userDAO;
 //	}
 
 
-	public boolean isUserValid(User newUser) {
-		if(newUser == null) return false;
-		if(newUser.getFirstName() == null || newUser.getFirstName().trim().equals("")) return false;
-		if(newUser.getLastName() == null || newUser.getLastName().trim().equals("")) return false;
-		if(newUser.getEmail() == null || newUser.getEmail().trim().equals("")) return false;
-		if(newUser.getUsername() == null || newUser.getUsername().trim().equals("")) return false;
-		return newUser.getPassword() != null && !newUser.getPassword().trim().equals("");
+	public boolean isUserEmailValid(User newUser) {
+		for (User oldUser : getAllUsers()){
+			if (oldUser.getEmail().equalsIgnoreCase(newUser.getEmail()))
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isUserUsernameValid(User newUser) {
+		for (User oldUser : getAllUsers()){
+			if (oldUser.getUsername().equalsIgnoreCase(newUser.getUsername()))
+			return false;
+		}
+		return true;
 	}
 	
 	public void updateUserWithSessionMethod(User user) {
