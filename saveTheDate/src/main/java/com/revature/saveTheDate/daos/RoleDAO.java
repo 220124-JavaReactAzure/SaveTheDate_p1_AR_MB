@@ -67,7 +67,7 @@ public class RoleDAO {
 	}
 	
 	//todo
-	public void deleteRole(int id) {
+	public void deleteRoleById(int id) {
 		try {
 			Session session = HibernateUtil.getSession();
 		} catch (HibernateException | IOException e) {
