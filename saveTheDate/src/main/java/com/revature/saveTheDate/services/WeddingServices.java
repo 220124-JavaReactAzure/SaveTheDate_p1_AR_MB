@@ -18,7 +18,7 @@ public class WeddingServices {
 
 	public boolean addWedding(Wedding wedding) {
 		// Check if wedding under budget then check if all services available on that date 
-		if (isWeddingUnderBudget(wedding) && isWeddingVenueAvailable(wedding) && isWeddingCatererAvailable(wedding) && isWeddingFloristAvailable(wedding) &&
+		if (isWeddingValid(wedding) && isWeddingUnderBudget(wedding) && isWeddingVenueAvailable(wedding) && isWeddingCatererAvailable(wedding) && isWeddingFloristAvailable(wedding) &&
 		isWeddingPhotographerAvailable(wedding) && isWeddingPhotographerAvailable(wedding)){
 		weddingDAO.addWedding(wedding);
 		return true;
@@ -59,7 +59,7 @@ public class WeddingServices {
 
 	public boolean isWeddingVenueAvailable (Wedding wedding){
 		for (Wedding weddingCheck : getAllWeddings()){
-			if (weddingCheck.getDate() == wedding.getDate()){
+			if (weddingCheck.getDate().equals(wedding.getDate())){
 				if (weddingCheck.getVenueId() == wedding.getVenueId()){
 					return false;
 				}
@@ -70,7 +70,7 @@ public class WeddingServices {
 
 	public boolean isWeddingCatererAvailable (Wedding wedding){
 		for (Wedding weddingCheck : getAllWeddings()){
-			if (weddingCheck.getDate() == wedding.getDate()){
+			if (weddingCheck.getDate().equals(wedding.getDate())){
 				if (weddingCheck.getCatererId() == wedding.getCatererId()){
 					return false;
 				}
@@ -81,7 +81,7 @@ public class WeddingServices {
 
 	public boolean isWeddingFloristAvailable (Wedding wedding){
 		for (Wedding weddingCheck : getAllWeddings()){
-			if (weddingCheck.getDate() == wedding.getDate()){
+			if (weddingCheck.getDate().equals(wedding.getDate())){
 				if (weddingCheck.getFloristId() == wedding.getFloristId()){
 					return false;
 				}
@@ -92,7 +92,7 @@ public class WeddingServices {
 
 	public boolean isWeddingPhotographerAvailable (Wedding wedding){
 		for (Wedding weddingCheck : getAllWeddings()){
-			if (weddingCheck.getDate() == wedding.getDate()){
+			if (weddingCheck.getDate().equals(wedding.getDate())){
 				if (weddingCheck.getPhotographerId() == wedding.getPhotographerId()){
 					return false;
 				}
@@ -103,13 +103,25 @@ public class WeddingServices {
 
 	public boolean isWeddingMusicianAvailable (Wedding wedding){
 		for (Wedding weddingCheck : getAllWeddings()){
-			if (weddingCheck.getDate() == wedding.getDate()){
+			if (weddingCheck.getDate().equals(wedding.getDate())){
 				if (weddingCheck.getMusicianId() == wedding.getMusicianId()){
 					return false;
 				}
 			}
 		}
 		return true;
+	}
+
+	public boolean isWeddingValid (Wedding wedding){
+		if (!(wedding.getDate().length() == 10)){
+			return false;
+		} else if (wedding.getBudget() <= 0){
+			return false;
+		} else{
+			return true;
+		}
+		
+
 	}
 
 }

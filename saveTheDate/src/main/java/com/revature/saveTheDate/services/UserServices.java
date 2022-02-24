@@ -34,19 +34,19 @@ private final UserDAO userDAO;
 	}
 	
 
-//	public User authenticateUser(String username, String password) {
-//		
-//		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
-//			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
-//		}
-//		
-//		User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
-//		
-//		if(authenticatedUser == null) {
-//			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
-//		}
-//		return authenticatedUser;
-//	}
+	// public User isUserValid(String username, String password) {
+		
+	// 	if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
+	// 	throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
+	// 	}
+		
+	// 	User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
+		
+	// 	if(authenticatedUser == null) {
+	// 		throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
+	// 	}
+	// 	return authenticatedUser;
+	// }
 
 
 	public boolean isUserEmailValid(User newUser) {
