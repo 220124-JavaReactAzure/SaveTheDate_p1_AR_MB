@@ -3,6 +3,7 @@ package com.revature.saveTheDate.services;
 import java.util.List;
 
 import com.revature.saveTheDate.daos.WeddingDAO;
+import com.revature.saveTheDate.models.Service;
 import com.revature.saveTheDate.models.Wedding;
 import com.revature.saveTheDate.daos.ServiceDAO;
 import com.revature.saveTheDate.services.ServiceServices;
@@ -14,6 +15,7 @@ public class WeddingServices {
 
 
 	private final WeddingDAO weddingDAO;
+	private ServiceServices serviceServices;
 	private final Logger logger = LogManager.getLogger();
 
 	public WeddingServices(WeddingDAO weddingDAO) {
@@ -56,9 +58,9 @@ public class WeddingServices {
 
 	public boolean isWeddingUnderBudget(Wedding wedding){
 		logger.info("WeddingService.isWeddingUnderBudget was called for wedding: " + wedding);
-		if (ServiceServices.getServiceById(wedding.getVenueId()).getCost() + ServiceServices.getServiceById(wedding.getCatererId()).getCost() +
-		ServiceServices.getServiceById(wedding.getFloristId()).getCost() + ServiceServices.getServiceById(wedding.getPhotographerId)().getCost() +
-		ServiceServices.getServiceById(wedding.getMusicianId()).getCost() > wedding.getBudget()){
+		if (serviceServices.getServiceById(wedding.getVenueId()).getCost() + serviceServices.getServiceById(wedding.getCatererId()).getCost() +
+		serviceServices.getServiceById(wedding.getFloristId()).getCost() + serviceServices.getServiceById(wedding.getPhotographerId()).getCost() +
+		serviceServices.getServiceById(wedding.getMusicianId()).getCost() > wedding.getBudget()){
 			return false;
 		} else {
 			return true;

@@ -40,7 +40,7 @@ public class ServiceServices {
 	}
 		
 	public void deleteService (int id) {
-		logger.info("ServiceServices.deleteService called for Service: " + service);
+		logger.info("ServiceServices.deleteService called for Service: " + id);
 		serviceDAO.deleteService(id);
 	}
 
