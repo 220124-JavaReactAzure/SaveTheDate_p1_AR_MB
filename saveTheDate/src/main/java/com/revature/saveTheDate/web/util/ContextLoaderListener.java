@@ -3,6 +3,7 @@ package com.revature.saveTheDate.web.util;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.saveTheDate.daos.AttendeeDAO;
@@ -27,6 +28,7 @@ import com.revature.saveTheDate.web.servlets.ServiceTypeServlet;
 import com.revature.saveTheDate.web.servlets.UserServlet;
 import com.revature.saveTheDate.web.servlets.WeddingServlet;
 
+@WebListener
 public class ContextLoaderListener implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -49,12 +51,13 @@ public class ContextLoaderListener implements ServletContextListener{
 		AttendeeServices attendeeServices = new AttendeeServices(attendeeDAO);
 		RoleServices roleServices = new RoleServices(roleDAO);
 		
-		WeddingServlet weddingServlet = new WeddingServlet(weddingServices, mapper);
-		UserServlet userServlet = new UserServlet(userServices, mapper);
-		ServiceServlet serviceServlet = new ServiceServlet(serviceServices, mapper);
+		WeddingServlet weddingServlet = new WeddingServlet(weddingServices, mapper, serviceServices, userServices);
+		UserServlet userServlet = new UserServlet(userServices, mapper, roleServices);
+		ServiceServlet serviceServlet = new ServiceServlet(serviceServices, mapper, serviceTypeServices);
 		DinnerServlet dinnerServlet = new DinnerServlet(dinnerServices, mapper);
 		ServiceTypeServlet serviceTypeServlet = new ServiceTypeServlet(serviceTypeServices, mapper);
-		AttendeeServlet attendeeServlet = new AttendeeServlet(attendeeServices, mapper);
+		AttendeeServlet attendeeServlet = new AttendeeServlet(attendeeServices, mapper, userServices,
+				weddingServices, dinnerServices);
 		RoleServlet roleServlet = new RoleServlet(roleServices, mapper);
 		
 		ServletContext context = sce.getServletContext();
