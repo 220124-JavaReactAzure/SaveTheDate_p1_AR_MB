@@ -21,7 +21,11 @@ public class ServiceTypeServices {
 	
 	public boolean addServiceType(ServiceType serviceType) {
 		logger.info("ServiceTypeServices.addServiceType was called for ServiceType: " + serviceType);
-		return serviceTypeDAO.addServiceType(serviceType);
+		if(isServiceTypeValid(serviceType)){
+			return serviceTypeDAO.addServiceType(serviceType);
+		} else{
+			return false;
+		}
 	}
 	
 	public List<ServiceType> getAllServiceTypes(){
@@ -47,5 +51,13 @@ public class ServiceTypeServices {
 	public void deleteServiceTypeById(int id) {
 		logger.info("ServiceTypeServices.deleteServiceTypeById was called for id: " + id);
 		serviceTypeDAO.deleteServiceTypeById(id);
+	}
+
+	public boolean isServiceTypeValid(ServiceType serviceType){
+		if (serviceType.getId() <= 0 || serviceType.getId() >= 6 || serviceType.getService() == null){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.core.util.Assert;
@@ -31,6 +30,8 @@ public class WeddingServiceTestSuite {
 	public void testPrep() {
 		mockWeddingDAO = mock(WeddingDAO.class);
 		sut = new WeddingServices(mockWeddingDAO);
+		mockServiceDAO = mock(ServiceDAO.class);
+		dut = new ServiceServices(mockServiceDAO);
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public class WeddingServiceTestSuite {
 		boolean actualResult = sut.addWedding(validWedding);
 		
 		// Assert
-		Assert.assertNotNull(actualResult);
+		Assert.assertTrue(actualResult);
 	}
 
 	@Test
