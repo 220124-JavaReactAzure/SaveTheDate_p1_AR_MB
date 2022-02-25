@@ -3,12 +3,7 @@ package com.revature.saveTheDate.services;
 import java.util.List;
 
 import com.revature.saveTheDate.daos.UserDAO;
-import com.revature.saveTheDate.models.Attendee;
 import com.revature.saveTheDate.models.User;
-import com.revature.saveTheDate.models.Wedding;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class UserServices {
 	
@@ -79,5 +74,8 @@ private final Logger logger = LogManager.getLogger();
 		userDAO.updateUserWithSessionMethod(user);
 	}
 	
+}
+
+
 }
 
