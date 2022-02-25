@@ -8,54 +8,69 @@ import com.revature.saveTheDate.models.User;
 public class UserServices {
 	
 private final UserDAO userDAO;
+private final Logger logger = LogManager.getLogger();
 	
 	// DI - Dependency Injection of the DAO
 	public UserServices(UserDAO userDAO) {
 		this.userDAO = userDAO;
+		logger.info("UserService was created");
 	}
 	
 	public boolean addUser(User newUser) {
-		
-		return userDAO.addUser(newUser);
+		logger.info("UserServices.addUser was called for user: " + newUser);
+		if (isUserEmailValid(newUser) && isUserUsernameValid(newUser)){
+			return userDAO.addUser(newUser);
+		}
+		return false;	
 	}
 	
 	public List<User> getAllUsers() {
+		logger.info("UserServices.getAllUsers was called");
 		return userDAO.getAllUsers();
 
 	}
 	
 	public User getUserById(int id) {
-
+		logger.info("UserServices.getUserById was called for id: " + id);
 		return userDAO.getUserById(id);
 	}
 	
 
-//	public User authenticateUser(String username, String password) {
-//		
-//		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
-//			throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
-//		}
-//		
-//		User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
-//		
-//		if(authenticatedUser == null) {
-//			throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
-//		}
-//		return authenticatedUser;
-//	}
+	// public User isUserValid(String username, String password) {
+		
+	// 	if(username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
+	// 	throw new InvalidRequestException("Either username or password is an invalid entry. Please try logging in again");
+	// 	}
+		
+	// 	User authenticatedUser = userDao.findByUsernameAndPassword(username, password);
+		
+	// 	if(authenticatedUser == null) {
+	// 		throw new AuthenticationException("Unauthenticated user, information provided was not found in our database.");
+	// 	}
+	// 	return authenticatedUser;
+	// }
 
 
-	public boolean isUserValid(User newUser) {
-		if(newUser == null) return false;
-		if(newUser.getFirstName() == null || newUser.getFirstName().trim().equals("")) return false;
-		if(newUser.getLastName() == null || newUser.getLastName().trim().equals("")) return false;
-		if(newUser.getEmail() == null || newUser.getEmail().trim().equals("")) return false;
-		if(newUser.getUsername() == null || newUser.getUsername().trim().equals("")) return false;
-		return newUser.getPassword() != null && !newUser.getPassword().trim().equals("");
+	public boolean isUserEmailValid(User newUser) {
+		logger.info("UserServices.isUserEmailValid was called for user: " + newUser);
+		for (User oldUser : getAllUsers()){
+			if (oldUser.getEmail().equalsIgnoreCase(newUser.getEmail()))
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isUserUsernameValid(User newUser) {
+		logger.info("UserServices.isUsernameValid was called for user: " + newUser);
+		for (User oldUser : getAllUsers()){
+			if (oldUser.getUsername().equalsIgnoreCase(newUser.getUsername()))
+			return false;
+		}
+		return true;
 	}
 	
 	public void updateUserWithSessionMethod(User user) {
-
+		logger.info("UserServices.updateUderWithSessionMethod was called for user: " + user);
 		userDAO.updateUserWithSessionMethod(user);
 	}
 	
