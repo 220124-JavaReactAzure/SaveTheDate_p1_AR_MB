@@ -5,13 +5,10 @@ import java.util.List;
 import com.revature.saveTheDate.daos.ServiceTypeDAO;
 import com.revature.saveTheDate.models.ServiceType;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 
 public class ServiceTypeServices {
 
-	private final ServiceTypeDAO serviceTypeDAO;
+private final ServiceTypeDAO serviceTypeDAO;
 	private final Logger logger = LogManager.getLogger();
 	
 	public ServiceTypeServices(ServiceTypeDAO serviceTypeDAO) {
@@ -54,7 +51,7 @@ public class ServiceTypeServices {
 	}
 
 	public boolean isServiceTypeValid(ServiceType serviceType){
-		if (serviceType.getId() <= 0 || serviceType.getId() >= 6 || serviceType.getService() == null){
+		if (serviceType.getId() <= 0 || serviceType.getId() >= 6 || serviceType.getServiceType() == null){
 			return false;
 		} else {
 			return true;
