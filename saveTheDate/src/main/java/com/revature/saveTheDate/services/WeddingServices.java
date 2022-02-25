@@ -68,7 +68,7 @@ public class WeddingServices {
 		//logger.info("WeddingService.isWeddingVenueAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getVenue().equals(wedding.getVenue())){
+				if (weddingCheck.getVenue().getId() == wedding.getVenue().getId()){
 					return false;
 				}
 			}
@@ -80,7 +80,7 @@ public class WeddingServices {
 		//logger.info("WeddingService.isWeddingCatererAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getCaterer().equals(wedding.getCaterer())){
+				if (weddingCheck.getCaterer().getId() == wedding.getCaterer().getId()){
 					return false;
 				}
 			}
@@ -92,7 +92,7 @@ public class WeddingServices {
 		//logger.info("WeddingService.isWeddingFloristAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getFlorist().equals(wedding.getFlorist())){
+				if (weddingCheck.getFlorist().getId() == wedding.getFlorist().getId()){
 					return false;
 				}
 			}
@@ -104,7 +104,7 @@ public class WeddingServices {
 		//logger.info("WeddingService.isWeddingPhotographerAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getPhotographer().equals(wedding.getPhotographer())){
+				if (weddingCheck.getPhotographer().getId() == wedding.getPhotographer().getId()){
 					return false;
 				}
 			}
@@ -116,7 +116,7 @@ public class WeddingServices {
 		//logger.info("WeddingService.isWeddingMusicianAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getMusician().equals(wedding.getMusician())){
+				if (weddingCheck.getMusician().getId() == wedding.getMusician().getId()){
 					return false;
 				}
 			}
