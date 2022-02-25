@@ -2,6 +2,8 @@ package com.revature.saveTheDate.services;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+
 import com.revature.saveTheDate.daos.WeddingDAO;
 import com.revature.saveTheDate.models.Wedding;
 
@@ -89,7 +91,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingFloristAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getFloristId() == wedding.getFloristId()){
+				if (weddingCheck.getFlorist().get == wedding.getFlorist()){
 					return false;
 				}
 			}
@@ -134,7 +136,7 @@ public class WeddingServices {
 
 	public boolean isWeddingVenueAVenue (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getVenueId()).getServiceTypeId() == 1){
+		if(serviceServices.getServiceById(wedding.getVenue()).getServiceTypeId() == 1){
 			return true;
 		} else{
 			return false;
