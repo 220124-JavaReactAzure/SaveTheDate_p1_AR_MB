@@ -16,7 +16,10 @@ private final DinnerDAO dinnerDAO;
 
 	public boolean addDinner(Dinner dinner) {
 		//logger.info("DinnerServices.addDinner was called for Dinner: " + dinner);
-		return dinnerDAO.addDinner(dinner);
+		if(isDinnerValid){
+			return dinnerDAO.addDinner(dinner);
+		}
+		return false;
 	}
 
 	public List<Dinner> getAllDinners() {
@@ -38,6 +41,15 @@ private final DinnerDAO dinnerDAO;
 		//logger.info("DinnerServices.deleteDinnerById was called for id: " + id);
 		dinnerDAO.deleteDinnerById(id);
 	}
+	
+	public boolean isDinnerValid(Dinner dinner) {
+		if(dinner == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
 
 	
 }
