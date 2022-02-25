@@ -13,18 +13,24 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.saveTheDate.models.Service;
+import com.revature.saveTheDate.models.ServiceType;
 import com.revature.saveTheDate.services.ServiceServices;
+import com.revature.saveTheDate.services.ServiceTypeServices;
 
 public class ServiceServlet extends HttpServlet{
 	
 	private final ServiceServices serviceServices;
 	private final ObjectMapper mapper;
+	private final ServiceTypeServices serviceTypeServices;
 	
-	public ServiceServlet(ServiceServices serviceServices, ObjectMapper mapper) {
+	public ServiceServlet(ServiceServices serviceServices, ObjectMapper mapper,
+			ServiceTypeServices serviceTypeServices) {
+		super();
 		this.serviceServices = serviceServices;
 		this.mapper = mapper;
+		this.serviceTypeServices = serviceTypeServices;
 	}
-	
+
 	// RCUD - order
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,7 +76,15 @@ public class ServiceServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
+			String idParam = req.getParameter("serviceTypeId");
+			if(idParam == null) {
+				resp.setStatus(400);
+				resp.getWriter().write("Please include the query ?serviceTypeId=# in your url");
+				return;
+			}
+			ServiceType serviceType = serviceTypeServices.getServiceTypeById(Integer.valueOf(idParam));
 			Service newService = mapper.readValue(req.getInputStream(), Service.class);
+			newService.setServiceType(serviceType);
 			boolean wasReg = serviceServices.addService(newService);
 			if(wasReg) {
 				resp.setStatus(201);

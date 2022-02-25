@@ -13,18 +13,33 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.saveTheDate.models.Attendee;
+import com.revature.saveTheDate.models.Dinner;
+import com.revature.saveTheDate.models.User;
+import com.revature.saveTheDate.models.Wedding;
 import com.revature.saveTheDate.services.AttendeeServices;
+import com.revature.saveTheDate.services.DinnerServices;
+import com.revature.saveTheDate.services.UserServices;
+import com.revature.saveTheDate.services.WeddingServices;
 
 public class AttendeeServlet extends HttpServlet{
 	
 	private final AttendeeServices attendeeServices;
 	private final ObjectMapper mapper;
+	private final UserServices userServices;
+	private final WeddingServices weddingServices;
+	private final DinnerServices dinnerServices;
 	
-	public AttendeeServlet(AttendeeServices attendeeServices, ObjectMapper mapper) {
+	
+	public AttendeeServlet(AttendeeServices attendeeServices, ObjectMapper mapper, UserServices userServices,
+			WeddingServices weddingServices, DinnerServices dinnerServices) {
+		super();
 		this.attendeeServices = attendeeServices;
 		this.mapper = mapper;
+		this.userServices = userServices;
+		this.weddingServices = weddingServices;
+		this.dinnerServices = dinnerServices;
 	}
-	
+
 	// RCUD - order
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,7 +85,25 @@ public class AttendeeServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
+			String userIdParam = req.getParameter("userId");
+			String weddingIdParam = req.getParameter("weddingId");
+			String dinnerIdParam = req.getParameter("dinnerId");
+			String dinnerPlusOneIdParam = req.getParameter("dinnerPlusOneId");
+			
+			if(userIdParam == null || weddingIdParam == null || dinnerIdParam == null || dinnerPlusOneIdParam == null ) {
+				resp.setStatus(400);
+				resp.getWriter().write("Please include the query ?userId=#&weddingId=#&dinnerId=#&dinnerPlusOneId=#& in your url");
+				return;
+			}
+			User user = userServices.getUserById(Integer.valueOf(userIdParam));
+			Wedding wedding = weddingServices.getWeddingById(Integer.valueOf(weddingIdParam));
+			Dinner dinner = dinnerServices.getDinnerById(Integer.valueOf(dinnerIdParam));
+			Dinner dinnerPlusOne = dinnerServices.getDinnerById(Integer.valueOf(dinnerPlusOneIdParam));
 			Attendee newAttendee = mapper.readValue(req.getInputStream(), Attendee.class);
+			newAttendee.setUser(user);
+			newAttendee.setWedding(wedding);
+			newAttendee.setDinner(dinner);
+			newAttendee.setPlusOneDinner(dinnerPlusOne);
 			boolean wasReg = attendeeServices.addAttendee(newAttendee);
 			if(wasReg) {
 				resp.setStatus(201);

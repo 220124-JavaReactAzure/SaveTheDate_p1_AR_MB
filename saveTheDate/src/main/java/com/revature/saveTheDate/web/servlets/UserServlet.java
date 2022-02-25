@@ -12,19 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.saveTheDate.models.Role;
+import com.revature.saveTheDate.models.Service;
 import com.revature.saveTheDate.models.User;
+import com.revature.saveTheDate.services.RoleServices;
 import com.revature.saveTheDate.services.UserServices;
 
 public class UserServlet extends HttpServlet{
 	
 	private final UserServices userServices;
 	private final ObjectMapper mapper;
+	private final RoleServices roleServices;
 	
-	public UserServlet(UserServices userServices, ObjectMapper mapper) {
+	public UserServlet(UserServices userServices, ObjectMapper mapper, RoleServices roleServices) {
+		super();
 		this.userServices = userServices;
 		this.mapper = mapper;
+		this.roleServices = roleServices;
 	}
-	
+
 	// RCUD - order
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,7 +76,15 @@ public class UserServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		try {
+			String idParam = req.getParameter("roleId");
+			if(idParam == null) {
+				resp.setStatus(400);
+				resp.getWriter().write("Please include the query ?roleId=# in your url");
+				return;
+			}
+			Role role = roleServices.getRoleById(Integer.valueOf(idParam));
 			User newUser = mapper.readValue(req.getInputStream(), User.class);
+			newUser.setRole(role);
 			boolean wasReg = userServices.addUser(newUser);
 			if(wasReg) {
 				resp.setStatus(201);
