@@ -6,18 +6,25 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.core.util.Assert;
+
 import org.hibernate.annotations.UpdateTimestamp;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.revature.saveTheDate.daos.UserDAO;
+import com.revature.saveTheDate.models.Role;
 import com.revature.saveTheDate.models.User;
 import com.revature.saveTheDate.services.UserServices;
 
 public class UserServiceTestSuite {
+	Role role = new Role(1, "valid");
+	
+	
+	
     UserServices sut;
 	UserDAO mockUserDAO;
 
@@ -30,35 +37,31 @@ public class UserServiceTestSuite {
     @Test
 	public void test_addUser() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
+    	User user = new User(1, role, "validUname", "validUname", "validEmail", "validEmail", "valid", "valid", "valid");
+    	User user2 = new User(1, role, "validUname", "validUname", "validEmail", "validEmail", "valid", "valid", "valid");
+    	User user3 = new User(1, role, "validUname1", "validUname1", "validEmail1", "validEmail1", "valid", "valid", "valid");
+     
         
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
+        List<User> testList = new ArrayList<User>();
+        testList.add(user);
 
 		when(mockUserDAO.getAllUsers()).thenReturn(testList);
 
-        boolean testResult = sut.addUser(testUser3);
-        boolean testResult2 = sut.addUser(testUser4);
+        boolean testResult = sut.addUser(user2);
+        boolean testResult2 = sut.addUser(user3);
 		
 		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult2);
+     
     }
 
     @Test
 	public void test_getAllUsers() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user3", "pwrd", "email", "fname", "lname", "1", "valid");
-        
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
-        testList.add(testUser3);
+    	User user = new User(1, role, "valid", "validUname", "valid", "validEmail", "valid", "valid", "valid");
+       
+        List<User> testList = new ArrayList<User>();
+        testList.add(user);
 
 		when(mockUserDAO.getAllUsers()).thenReturn(testList);
 
@@ -70,58 +73,54 @@ public class UserServiceTestSuite {
     @Test
 	public void test_getUserById() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user3", "pwrd", "email", "fname", "lname", "1", "valid");
+    	User user = new User(1, role, "valid", "validUname", "valid", "validEmail", "valid", "valid", "valid");
         
-        when(mockUserDAO.getUserById(1)).thenResult(testUser);
+        when(mockUserDAO.getUserById(1)).thenReturn(user);
 
         User resultUser = sut.getUserById(1);
-        User resultUser2 = sut.getUserById(5);
 
         Assert.assertNotNull(resultUser);
-        Assert.assertNull(resultUser2);
+       
     }
 
     @Test
 	public void test_UserEmailValid() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
+    	User user = new User(1, role, "valid", "valid", "valid", "valid", "valid", "valid", "valid");
+    	User user2 = new User(1, role, "valid", "valid", "valid", "valid", "valid", "valid", "valid");
+    	User user3 = new User(1, role, "validUname", "valid", "validemail", "valid", "valid", "valid", "valid");
         
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
+        List<User> testList = new ArrayList<User>();
+        testList.add(user);
 
 		when(mockUserDAO.getAllUsers()).thenReturn(testList);
 
-        boolean testResult = sut.isUserEmailValid(testUser3);
-        boolean testResult2 = sut.isUserEmailValid(testUser4);
+        boolean testResult = sut.isUserEmailValid(user2);
+        boolean testResult2 = sut.isUserEmailValid(user3);
 		
 		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
+		Assert.assertTrue(testResult2);
+       
     }
 
     @Test
 	public void test_isUserUsernameValid() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
+    	User user = new User(1, role, "valid", "valid", "valid", "valid", "valid", "valid", "valid");
+    	User user2 = new User(1, role, "valid", "valid", "valid", "valid", "valid", "valid", "valid");
+    	User user3 = new User(1, role, "validUname", "valid", "validEmail", "valid", "valid", "valid", "valid");
         
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
+        List<User> testList = new ArrayList<User>();
+        testList.add(user);
 
 		when(mockUserDAO.getAllUsers()).thenReturn(testList);
 
-        boolean testResult = sut.isUserUsernameValid(testUser3);
-        boolean testResult2 = sut.isUserUsernameValid(testUser4);
+        boolean testResult = sut.isUserEmailValid(user2);
+        boolean testResult2 = sut.isUserEmailValid(user3);
 		
 		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
+		Assert.assertTrue(testResult2);
+       
     }
 }
+
