@@ -67,7 +67,7 @@ public class DinnerDAO {
 	}
 	
 	//todo
-	public void deleteDinner(int id) {
+	public void deleteDinnerById(int id) {
 		try {
 			Session session = HibernateUtil.getSession();
 		} catch (HibernateException | IOException e) {
