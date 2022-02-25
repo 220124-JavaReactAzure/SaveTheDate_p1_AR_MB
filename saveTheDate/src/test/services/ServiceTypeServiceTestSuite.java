@@ -6,122 +6,93 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.core.util.Assert;
+import com.revature.saveTheDate.daos.ServiceTypeDAO;
+import com.revature.saveTheDate.models.ServiceType;
+import com.revature.saveTheDate.services.ServiceTypeServices;
+
+
 import org.hibernate.annotations.UpdateTimestamp;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.saveTheDate.daos.UserDAO;
-import com.revature.saveTheDate.models.User;
-import com.revature.saveTheDate.services.UserServices;
 
-public class UserServiceTestSuite {
-    UserServices sut;
-	UserDAO mockUserDAO;
+public class ServiceTypeServicesTestSuite {
+
+    ServiceTypeServices sut;
+	ServiceTypeDAO mockServiceTypeDAO;
 
     @Before
 	public void testPrep() {
-		mockUserDAO = mock(UserDAO.class);
-		sut = new UserServices(mockUserDAO);
+		mockServiceTypeDAO = mock(ServiceTypeDAO.class);
+		sut = new ServiceTypeServices(mockServiceTypeDAO);
     }
 
     @Test
-	public void test_addUser() {
+	public void test_addServiceType() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
+    	ServiceType testServiceType = new ServiceType(1, "valid");
+        ServiceType testServiceType2 = new ServiceType(6, "valid");
         
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
 
-		when(mockUserDAO.getAllUsers()).thenReturn(testList);
+        boolean result = sut.addServiceType(testServiceType);
+        boolean result2 = sut.addServiceType(testServiceType2);
+ 
 
-        boolean testResult = sut.addUser(testUser3);
-        boolean testResult2 = sut.addUser(testUser4);
-		
-		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
+        
+        Assert.assertFalse(result2); 
+        Assert.assertTrue(result);
     }
 
     @Test
-	public void test_getAllUsers() {
+	public void test_getAllServiceTypes() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user3", "pwrd", "email", "fname", "lname", "1", "valid");
+    	ServiceType testServiceType = new ServiceType(1, "valid");
         
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
-        testList.add(testUser3);
+        List<ServiceType> testList = new ArrayList<ServiceType>();
+        testList.add(testServiceType);
 
-		when(mockUserDAO.getAllUsers()).thenReturn(testList);
+        when(mockServiceTypeDAO.getAllServiceTypes()).thenReturn(testList);
 
-        List<User> resultList = sut.getAllUsers();
+        List<ServiceType> resultList = sut.getAllServiceTypes();
 
         Assert.assertNotNull(resultList);
     }
 
     @Test
-	public void test_getUserById() {
+	public void test_getServiceTypeById() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user3", "pwrd", "email", "fname", "lname", "1", "valid");
-        
-        when(mockUserDAO.getUserById(1)).thenResult(testUser);
+		ServiceType testServiceType = new ServiceType(1, "valid");
 
-        User resultUser = sut.getUserById(1);
-        User resultUser2 = sut.getUserById(5);
+        when(mockServiceTypeDAO.getServiceTypeById(1)).thenReturn(testServiceType);
 
-        Assert.assertNotNull(resultUser);
-        Assert.assertNull(resultUser2);
+        ServiceType result = sut.getServiceTypeById(1);
+        ServiceType result2 = sut.getServiceTypeById(2);
+
+        Assert.assertNotNull(result);
+        Assert.assertNull(result2);
     }
 
     @Test
-	public void test_UserEmailValid() {
+	public void test_isServiceTypeValid() {
 		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
-        
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
+		ServiceType testServiceType = new ServiceType(1, "valid");
+        ServiceType testServiceType2 = new ServiceType(6, "valid");
+        ServiceType testServiceType3 = new ServiceType(0, "valid");
+        ServiceType testServiceType4 = new ServiceType(1, null);
 
-		when(mockUserDAO.getAllUsers()).thenReturn(testList);
+        boolean result = sut.isServiceTypeValid(testServiceType);
+        boolean result2 = sut.isServiceTypeValid(testServiceType2);
+        boolean result3 = sut.isServiceTypeValid(testServiceType3);
+        boolean result4 = sut.isServiceTypeValid(testServiceType4);
 
-        boolean testResult = sut.isUserEmailValid(testUser3);
-        boolean testResult2 = sut.isUserEmailValid(testUser4);
-		
-		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
+        Assert.assertTrue(result);
+        Assert.assertFalse(result2);
+        Assert.assertFalse(result3);
+        Assert.assertFalse(result4);
     }
-
-    @Test
-	public void test_isUserUsernameValid() {
-		
-		User testUser = new User(1, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser2 = new User(2, 1, "user2", "pwrd", "email1", "fname", "lname", "1", "valid");
-        User testUser3 = new User(3, 1, "user", "pwrd", "email", "fname", "lname", "1", "valid");
-        User testUser4 = new User(4, 1, "user3", "pwrd", "email2", "fname", "lname", "1", "valid");
-        
-        List<User> testList;
-        testList.add(testUser);
-        testList.add(testUser2);
-
-		when(mockUserDAO.getAllUsers()).thenReturn(testList);
-
-        boolean testResult = sut.isUserUsernameValid(testUser3);
-        boolean testResult2 = sut.isUserUsernameValid(testUser4);
-		
-		Assert.assertFalse(testResult);
-        Assert.assertTrue(testResult2);
-    }
+    
 }
