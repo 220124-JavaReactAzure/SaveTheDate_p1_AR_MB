@@ -51,7 +51,7 @@ private final ServiceTypeDAO serviceTypeDAO;
 	}
 
 	public boolean isServiceTypeValid(ServiceType serviceType){
-		if (serviceType.getId() <= 0 || serviceType.getId() >= 6 || serviceType.getService() == null){
+		if (serviceType.getId() <= 0 || serviceType.getId() >= 6 || serviceType.getServiceType() == null){
 			return false;
 		} else {
 			return true;

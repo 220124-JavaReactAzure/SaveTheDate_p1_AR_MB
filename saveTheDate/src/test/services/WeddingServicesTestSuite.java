@@ -1,6 +1,7 @@
 package com.revature.saveTheDate.test.services;
 
 import static org.junit.Assert.assertFalse;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
@@ -38,13 +39,16 @@ public class WeddingServiceTestSuite {
 	public void test_isWeddingValid_returnsTrue_givenValidWedding() {
 		
 		// Arrange
-		Wedding validWedding = new Wedding(1, 1, "08/23/1996", 500, 1, 1, 1, 1, 1);
+		Wedding validWedding = new Wedding(1, User user, "08/23/1996", 500, Service venue, Service caterer, Service florist, Service photographer, Service musician);
+		
 		
 		// Act
 		boolean actualResult = sut.isWeddingValid(validWedding);
+
 		
 		// Assert
 		Assert.assertTrue(actualResult);
+	
 		
 	}
 	
@@ -52,8 +56,8 @@ public class WeddingServiceTestSuite {
 	public void test_isWeddingValid_returnsFalse_givenInvalidWedding() {
 		
 		// Arrange
-		Wedding invalidWedding1 = new Wedding(1, 1, "080/23/1996", 400, 1, 1, 1, 1, 1);
-		Wedding invalidWedding2 = new Wedding(1, 1, "08/23/1996", 0, 1, 1, 1, 1, 1);
+		Wedding invalidWedding1 = new Wedding(1, User user, "008/23/1996", 500, Service venue, Service caterer, Service florist, Service photographer, Service musician);
+		Wedding invalidWedding2 = new Wedding(2, User user, "08/23/1996", 0, Service venue, Service caterer, Service florist, Service photographer, Service musician);
 			
 		//Act
 		boolean actualResult1 = sut.isWeddingValid(invalidWedding1);

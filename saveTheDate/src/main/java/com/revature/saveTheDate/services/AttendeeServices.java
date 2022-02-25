@@ -40,4 +40,15 @@ public class AttendeeServices {
 		attendeeDAO.deleteAttendeeById(id);
 	}
 	
+	public boolean isAttendeeValid(Attendee attendee) {
+		if(attendee.isAttending()) {
+			if (attendee.getDinner().getDinnername() == null){
+				return false;
+			} else {
+				return true;
+			}
+		}
+		return true;
+	}
+	
 }
