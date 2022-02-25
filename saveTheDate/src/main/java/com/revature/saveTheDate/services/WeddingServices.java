@@ -27,9 +27,10 @@ public class WeddingServices {
 		logger.info("WeddingService.addWedding was called for wedding: " + wedding);
 		// Check if wedding under budget then check if all services available on that date 
 		if (isWeddingValid(wedding) && isWeddingUnderBudget(wedding) && isWeddingVenueAvailable(wedding) && isWeddingCatererAvailable(wedding) && isWeddingFloristAvailable(wedding) &&
-		isWeddingPhotographerAvailable(wedding) && isWeddingPhotographerAvailable(wedding)){
+		isWeddingPhotographerAvailable(wedding) && isWeddingPhotographerAvailable(wedding) && isWeddingVenueAVenue(wedding) && isWeddingCatererACaterer(wedding) && isWeddingFloristAFlorist(wedding) 
+		&& isWeddingPhotographerAPhotographer(wedding) && isWeddingMucicianAMucician (wedding)){
 		weddingDAO.addWedding(wedding);
-		return true;
+			return true;
 		} else{
 			return false;
 		}
@@ -50,7 +51,6 @@ public class WeddingServices {
 		logger.info("WeddingService.updateWeddingWithSessionMethod was called for the wedding: " + wedding);
 	}
 		
-	
 	public void deleteWeddingById (int id) {
 		weddingDAO.deleteWeddingById(id);
 		logger.info("WeddingService.deleteWeddingById was called for the id: " + id);
@@ -77,7 +77,6 @@ public class WeddingServices {
 			}
 		}
 		return true;
-
 	}
 
 	public boolean isWeddingCatererAvailable (Wedding wedding){
@@ -139,4 +138,48 @@ public class WeddingServices {
 		}
 	}
 
+	public boolean isWeddingVenueAVenue (Wedding wedding){
+		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
+		if(serviceServices.getServiceById(wedding.getVenueId()).getServiceTypeId() == 1){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public boolean isWeddingCatererACaterer (Wedding wedding){
+		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
+		if(serviceServices.getServiceById(wedding.getCatererId()).getServiceTypeId() == 2){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public boolean isWeddingFloristAFlorist (Wedding wedding){
+		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
+		if(serviceServices.getServiceById(wedding.getFloristId()).getServiceTypeId() == 3){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public boolean isWeddingPhotographerAPhotographer (Wedding wedding){
+		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
+		if(serviceServices.getServiceById(wedding.getPhotographerId()).getServiceTypeId() == 4){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public boolean isWeddingMucicianAMucician (Wedding wedding){
+		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
+		if(serviceServices.getServiceById(wedding.getMusicianId()).getServiceTypeId() == 5){
+			return true;
+		} else{
+			return false;
+		}
+	}
 }

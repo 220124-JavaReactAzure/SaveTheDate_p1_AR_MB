@@ -14,7 +14,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.revature.saveTheDate.daos.ServiceDAO;
 import com.revature.saveTheDate.daos.WeddingDAO;
+import com.revature.saveTheDate.models.Service;
 import com.revature.saveTheDate.models.Wedding;
 import com.revature.saveTheDate.services.*;
 
@@ -22,6 +24,8 @@ public class WeddingServiceTestSuite {
     
     WeddingServices sut;
 	WeddingDAO mockWeddingDAO;
+	ServiceServices dut;
+	ServiceDAO mockServiceDAO;
 
     @Before
 	public void testPrep() {
@@ -59,7 +63,7 @@ public class WeddingServiceTestSuite {
 		Assert.assertFalse(actualResult2);		
 	}
 	
-	//TODO: Figure out implementation. CHARLES YOU DINGLEBERRY MOCK IT!!!!!!!
+	
 	@Test
 	public void test_addWedding_returnsTrue() {
 		// Arrange
@@ -95,7 +99,7 @@ public class WeddingServiceTestSuite {
 	@Test 
 	public void test_getWeddingById(){
 
-		Wedding testWedding = new Wedding();
+		Wedding testWedding = new Wedding(10, 1, "08/23/1996", 500, 1, 1, 1, 1, 1);
 		when(mockWeddingDAO.getWeddingById(10)).thenReturn(testWedding);
 
 		Wedding resultWedding = sut.getWeddingById(10);
@@ -115,6 +119,241 @@ public class WeddingServiceTestSuite {
 
 	// 	Wedding testWedding = new Wedding();
 	// }
+
+	@Test 
+	public void test_isWeddingUnderBudget(){
+
+		Wedding testWedding = new Wedding(1, 1, "08/23/1996", 60, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(1, 1, "08/23/1996", 30, 1, 2, 3, 4, 5);
+		when(mockServiceDAO.getServiceById(1).getCost()).thenReturn(10);
+		when(mockServiceDAO.getServiceById(2).getCost()).thenReturn(10);
+		when(mockServiceDAO.getServiceById(3).getCost()).thenReturn(10);
+		when(mockServiceDAO.getServiceById(4).getCost()).thenReturn(10);
+		when(mockServiceDAO.getServiceById(5).getCost()).thenReturn(10);
+
+		boolean testResult = sut.isWeddingUnderBudget(testWedding);
+		boolean testResult2 = sut.isWeddingUnderBudget(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
+
+	@Test 
+	public void test_isWeddingVenueAvailable(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding3 = new Wedding(12, 3, "08/24/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding4 = new Wedding(13, 4, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding5 = new Wedding(14, 5, "08/25/1996", 500, 1, 2, 3, 4, 5);
+
+		List<Wedding> testList;
+		testList.add(testWedding);
+		testList.add(testWedding2);
+		testList.add(testWedding3);
+
+		when(mockWeddingDAO.getAllWeddings()).thenReturn(testList);
+
+		boolean testResult = sut.isWeddingVenueAvailable(testWedding4);
+		boolean testResult2 = sut.isWeddingVenueAvailable(testWedding5);
+
+
+		Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult);
+	}
+
+	@Test 
+	public void test_isWeddingCatererAvailable(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding3 = new Wedding(12, 3, "08/24/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding4 = new Wedding(13, 4, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding5 = new Wedding(14, 5, "08/25/1996", 500, 1, 2, 3, 4, 5);
+
+		List<Wedding> testList;
+		testList.add(testWedding);
+		testList.add(testWedding2);
+		testList.add(testWedding3);
+
+		when(mockWeddingDAO.getAllWeddings()).thenReturn(testList);
+
+		boolean testResult = sut.isWeddingCatererAvailable(testWedding4);
+		boolean testResult2 = sut.isWeddingCatererAvailable(testWedding5);
+
+
+		Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult);
+	}
+
+	@Test 
+	public void test_isWeddingFloristAvailable(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding3 = new Wedding(12, 3, "08/24/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding4 = new Wedding(13, 4, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding5 = new Wedding(14, 5, "08/25/1996", 500, 1, 2, 3, 4, 5);
+
+		List<Wedding> testList;
+		testList.add(testWedding);
+		testList.add(testWedding2);
+		testList.add(testWedding3);
+
+		when(mockWeddingDAO.getAllWeddings()).thenReturn(testList);
+
+		boolean testResult = sut.isWeddingFloristAvailable(testWedding4);
+		boolean testResult2 = sut.isWeddingFloristAvailable(testWedding5);
+
+
+		Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult);
+	}
+
+	
+	@Test 
+	public void test_isWeddingPhotographerAvailable(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding3 = new Wedding(12, 3, "08/24/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding4 = new Wedding(13, 4, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding5 = new Wedding(14, 5, "08/25/1996", 500, 1, 2, 3, 4, 5);
+
+		List<Wedding> testList;
+		testList.add(testWedding);
+		testList.add(testWedding2);
+		testList.add(testWedding3);
+
+		when(mockWeddingDAO.getAllWeddings()).thenReturn(testList);
+
+		boolean testResult = sut.isWeddingPhotographerAvailable(testWedding4);
+		boolean testResult2 = sut.isWeddingPhotographerAvailable(testWedding5);
+
+
+		Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult);
+	}
+
+	
+	@Test 
+	public void test_isWeddingMusicianAvailable(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding3 = new Wedding(12, 3, "08/24/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding4 = new Wedding(13, 4, "08/22/1996", 500, 1, 2, 3, 4, 5);
+		Wedding testWedding5 = new Wedding(14, 5, "08/25/1996", 500, 1, 2, 3, 4, 5);
+
+		List<Wedding> testList;
+		testList.add(testWedding);
+		testList.add(testWedding2);
+		testList.add(testWedding3);
+
+		when(mockWeddingDAO.getAllWeddings()).thenReturn(testList);
+
+		boolean testResult = sut.isWeddingMusicianAvailable(testWedding4);
+		boolean testResult2 = sut.isWeddingMusicianAvailable(testWedding5);
+
+
+		Assert.assertTrue(testResult2);
+		Assert.assertFalse(testResult);
+	}
+
+	@Test 
+	public void test_isWeddingVenueAVenue(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 0, 2, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 0, 2, 3, 4, 5);
+
+		Service testService = new Service(1, "name", 10, 1);
+		Service testService2 = new Service(2, "name", 10, 2);
+
+		testWedding.setVenueId(1);
+		testWedding2.setVenueId(2);
+
+		boolean testResult = sut.isWeddingVenueAVenue(testWedding);
+		boolean testResult2 = sut.isWeddingVenueAVenue(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
+
+	@Test 
+	public void test_isWeddingCatererACaterer(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 0, 3, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 0, 3, 4, 5);
+
+		Service testService = new Service(1, "name", 10, 2);
+		Service testService2 = new Service(2, "name", 10, 3);
+
+		testWedding.setCatererId(1);
+		testWedding2.setCatererId(2);
+
+		boolean testResult = sut.isWeddingCatererACaterer(testWedding);
+		boolean testResult2 = sut.isWeddingCatererACaterer(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
+
+	@Test 
+	public void test_isWeddingFloristAFlorist(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 0, 4, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 0, 4, 5);
+
+		Service testService = new Service(1, "name", 10, 3);
+		Service testService2 = new Service(2, "name", 10, 4);
+
+		testWedding.setVenueId(1);
+		testWedding2.setVenueId(2);
+
+		boolean testResult = sut.isWeddingFloristAFlorist(testWedding);
+		boolean testResult2 = sut.isWeddingFloristAFlorist(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
+
+	@Test 
+	public void test_isWeddingPhotographerAPhotographer(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 0, 5);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 0, 5);
+
+		Service testService = new Service(1, "name", 10, 4);
+		Service testService2 = new Service(2, "name", 10, 5);
+
+		testWedding.setPhotographerId(1);
+		testWedding2.setPhotographerId(2);
+
+		boolean testResult = sut.isWeddingPhotographerAPhotographer(testWedding);
+		boolean testResult2 = sut.isWeddingPhotographerAPhotographer(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
+
+	@Test 
+	public void test_isWeddingMucicianAMucician(){
+
+		Wedding testWedding = new Wedding(10, 1, "08/22/1996", 500, 1, 2, 3, 4, 0);
+		Wedding testWedding2 = new Wedding(11, 2, "08/23/1996", 500, 1, 2, 3, 4, 0);
+
+		Service testService = new Service(1, "name", 10, 5);
+		Service testService2 = new Service(2, "name", 10, 4);
+
+		testWedding.setVenueId(1);
+		testWedding2.setVenueId(2);
+
+		boolean testResult = sut.isWeddingMucicianAMucician(testWedding);
+		boolean testResult2 = sut.isWeddingMucicianAMucician(testWedding2);
+
+		Assert.assertTrue(testResult);
+		Assert.assertFalse(testResult2);
+	}
 
 
 
