@@ -1,11 +1,19 @@
 package com.revature.saveTheDate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="wedding")
@@ -16,8 +24,9 @@ public class Wedding {
 	@Column(name="wedding_id")
 	private int id;
 	
-	@Column(name="user_id")
-	private int userId;
+	@ManyToOne
+    @JoinColumn(name = "user_id")
+	private User user;
 	
 	@Column(name="wedding_date")
 	private String date;
@@ -25,37 +34,59 @@ public class Wedding {
 	@Column(name="budget")
 	private int budget;
 	
-	@Column(name="venue_id")
-	private int venueId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "venue_id", referencedColumnName = "service_id")
+	@JsonIgnoreProperties(value = { "serviceType", "venue_id" })
+	private Service venue;
 	
-	@Column(name="caterer_id")
-	private int catererId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "caterer_id", referencedColumnName = "service_id")
+	@JsonIgnoreProperties(value = { "serviceType", "caterer_id" })
+	private Service caterer;
 	
-	@Column(name="florist_id")
-	private int floristId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "florist_id", referencedColumnName = "service_id")
+	@JsonIgnoreProperties(value = { "serviceType", "florist_id" })
+	private Service florist;
 	
-	@Column(name="photographer_id")
-	private int photographerId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "photographer_id", referencedColumnName = "service_id")
+	@JsonIgnoreProperties(value = { "serviceType", "photographer_id" })
+	private Service photographer;
 	
-	@Column(name="musician_id")
-	private int musicianId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "musician_id", referencedColumnName = "service_id")
+	@JsonIgnoreProperties(value = { "serviceType", "musician_id" })
+	private Service musician;
+	
+	
+	@OneToMany(mappedBy = "wedding", fetch = FetchType.EAGER)
+	private List<Attendee> attendee;
 
-	public Wedding(int id, int userId, String date, int budget, int venueId, int catererId, int floristId,
-			int photographerId, int musicianId) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.date = date;
-		this.budget = budget;
-		this.venueId = venueId;
-		this.catererId = catererId;
-		this.floristId = floristId;
-		this.photographerId = photographerId;
-		this.musicianId = musicianId;
-	}
 
 	public Wedding() {
 		super();
+	}
+	
+	public Wedding(int id, User user, String date, int budget, Service venue, Service caterer, Service florist,
+			Service photographer, Service musician) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.date = date;
+		this.budget = budget;
+		this.venue = venue;
+		this.caterer = caterer;
+		this.florist = florist;
+		this.photographer = photographer;
+		this.musician = musician;
+	}
+
+	public Wedding(int id, String date, int budget) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.budget = budget;
 	}
 
 	public int getId() {
@@ -66,12 +97,12 @@ public class Wedding {
 		this.id = id;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getDate() {
@@ -90,45 +121,45 @@ public class Wedding {
 		this.budget = budget;
 	}
 
-	public int getVenueId() {
-		return venueId;
-	}
-
-	public void setVenueId(int venueId) {
-		this.venueId = venueId;
-	}
-
-	public int getCatererId() {
-		return catererId;
-	}
-
-	public void setCatererId(int catererId) {
-		this.catererId = catererId;
-	}
-
-	public int getFloristId() {
-		return floristId;
-	}
-
-	public void setFloristId(int floristId) {
-		this.floristId = floristId;
-	}
-
-	public int getPhotographerId() {
-		return photographerId;
-	}
-
-	public void setPhotographerId(int photographerId) {
-		this.photographerId = photographerId;
-	}
-
-	public int getMusicianId() {
-		return musicianId;
-	}
-
-	public void setMusicianId(int musicianId) {
-		this.musicianId = musicianId;
-	}
-
 	
+
+	public Service getVenue() {
+		return venue;
+	}
+
+	public void setVenue(Service venue) {
+		this.venue = venue;
+	}
+
+	public Service getCaterer() {
+		return caterer;
+	}
+
+	public void setCaterer(Service caterer) {
+		this.caterer = caterer;
+	}
+
+	public Service getFlorist() {
+		return florist;
+	}
+
+	public void setFlorist(Service florist) {
+		this.florist = florist;
+	}
+
+	public Service getPhotographer() {
+		return photographer;
+	}
+
+	public void setPhotographer(Service photographer) {
+		this.photographer = photographer;
+	}
+
+	public Service getMusician() {
+		return musician;
+	}
+
+	public void setMusician(Service musician) {
+		this.musician = musician;
+	}
 }

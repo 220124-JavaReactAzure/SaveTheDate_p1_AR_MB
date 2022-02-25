@@ -1,11 +1,20 @@
 package com.revature.saveTheDate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="users")
@@ -16,8 +25,10 @@ public class User {
 	@Column(name="user_id")
 	private int id;
 	
-	@Column(name="role_id")
-	private int role_id;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+	@JsonIgnoreProperties(value = { "user", "role_id" })
+	private Role role;
 	
 	@Column(name="username")
 	private String username;
@@ -40,23 +51,19 @@ public class User {
 	@Column(name="address")
 	private String address;
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Attendee> attendee;
 	
-	public User(int id, int role_id, String username, String password, String email, String phone, String address) {
-		super();
-		this.id = id;
-		this.role_id = role_id;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-	}
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private List<Wedding> wedding;
 
-	public User(int id, int role_id, String username, String password, String email, String firstName, String lastName,
+	
+
+	public User(int id, Role role, String username, String password, String email, String firstName, String lastName,
 			String phone, String address) {
 		super();
 		this.id = id;
-		this.role_id = role_id;
+		this.role = role;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -64,6 +71,30 @@ public class User {
 		this.lastName = lastName;
 		this.phone = phone;
 		this.address = address;
+	}
+
+
+
+
+	public User(int id, String username, String password, String email, String firstName, String lastName, String phone,
+			String address) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phone = phone;
+		this.address = address;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public String getFirstName() {
@@ -94,13 +125,6 @@ public class User {
 		this.id = id;
 	}
 
-	public int getRole_id() {
-		return role_id;
-	}
-
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
-	}
 
 	public String getUsername() {
 		return username;

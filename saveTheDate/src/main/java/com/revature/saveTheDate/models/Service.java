@@ -1,14 +1,23 @@
 package com.revature.saveTheDate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="service")
+@JsonIgnoreProperties(value = "wedding")
 public class Service {
 	
 	@Id
@@ -22,16 +31,44 @@ public class Service {
 	@Column(name="service_cost")
 	private int cost;
 	
-	@Column(name="service_type_id")
-	private int serviceTypeId;
+	@ManyToOne
+    @JoinColumn(name = "service_type_id")
+	@JsonIgnoreProperties(value = { "service", "service_type_id" })
+	private ServiceType serviceType;
+	
+	@OneToMany(mappedBy = "venue", fetch = FetchType.EAGER)
+	private List<Wedding> weddingVenue;
+	
+	@OneToMany(mappedBy = "caterer", fetch = FetchType.EAGER)
+	private List<Wedding> weddingCaterer;
+	
+	@OneToMany(mappedBy = "florist", fetch = FetchType.EAGER)
+	private List<Wedding> weddingFlorist;
+	
+	@OneToMany(mappedBy = "photographer", fetch = FetchType.EAGER)
+	private List<Wedding> weddingPhotographer;
+	
+	@OneToMany(mappedBy = "musician", fetch = FetchType.EAGER)
+	private List<Wedding> weddingMusician;
 
-	public Service(int id, String name, int cost, int serviceTypeId) {
+	public Service(int id, String name, int cost, ServiceType serviceType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
-		this.serviceTypeId = serviceTypeId;
+		this.serviceType = serviceType;
 	}
+	
+	
+
+	public Service(int id, String name, int cost) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.cost = cost;
+	}
+
+
 
 	public Service() {
 		super();
@@ -61,14 +98,15 @@ public class Service {
 		this.cost = cost;
 	}
 
-	public int getServiceTypeId() {
-		return serviceTypeId;
+	public ServiceType getServiceType() {
+		return serviceType;
 	}
 
-	public void setServiceTypeId(int serviceTypeId) {
-		this.serviceTypeId = serviceTypeId;
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
 	}
-	
+
+
 	
 
 }

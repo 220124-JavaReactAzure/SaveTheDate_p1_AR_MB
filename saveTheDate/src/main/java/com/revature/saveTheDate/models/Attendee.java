@@ -1,12 +1,22 @@
 package com.revature.saveTheDate.models;
 
-import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+@Entity
+@Table(name="attendee")
+@JsonIgnoreProperties(value = "user")
 public class Attendee {
 	
 	@Id
@@ -14,38 +24,46 @@ public class Attendee {
 	@Column(name="attendee_id")
 	private int id;
 	
-	@Column(name="user_id")
-	private int userId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+	@JsonIgnoreProperties(value = { "user", "user_id" })
+	private User user;
 	
-	@Column(name="wedding_id")
-	private int weddingId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "wedding_id", referencedColumnName = "wedding_id")
+	@JsonIgnoreProperties(value = { "wedding", "wedding_id" })
+	private Wedding wedding;
 	
 	@Column(name="isattending")
 	private boolean isAttending;
 	
-	@Column(name="dinner_id")
-	private int dinnerId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dinner_id")
+	@JsonIgnoreProperties(value = { "attendee", "dinner_id" })
+	private Dinner dinner;
 	
 	@Column(name="plus_one")
 	private boolean plusOne;
 	
-	@Column(name="pluse_one_dinner_id")
-	private int plusOneDinnerId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "plus_one_dinner_id")
+	@JsonIgnoreProperties(value = { "attendees", "plus_one_dinner_id" })
+	private Dinner plusOneDinner;
 
 	public Attendee() {
 		super();
 	}
 
-	public Attendee(int id, int userId, int weddingId, boolean isAttending, int dinnerId, boolean plusOne,
-			int plusOneDinnerId) {
+	public Attendee(int id, User user, Wedding wedding, boolean isAttending, Dinner dinner, boolean plusOne,
+			Dinner plusOneDinner) {
 		super();
 		this.id = id;
-		this.userId = userId;
-		this.weddingId = weddingId;
+		this.user = user;
+		this.wedding = wedding;
 		this.isAttending = isAttending;
-		this.dinnerId = dinnerId;
+		this.dinner = dinner;
 		this.plusOne = plusOne;
-		this.plusOneDinnerId = plusOneDinnerId;
+		this.plusOneDinner = plusOneDinner;
 	}
 
 	public int getId() {
@@ -56,20 +74,20 @@ public class Attendee {
 		this.id = id;
 	}
 
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public int getWeddingId() {
-		return weddingId;
+	public Wedding getWedding() {
+		return wedding;
 	}
 
-	public void setWeddingId(int weddingId) {
-		this.weddingId = weddingId;
+	public void setWedding(Wedding wedding) {
+		this.wedding = wedding;
 	}
 
 	public boolean isAttending() {
@@ -80,12 +98,12 @@ public class Attendee {
 		this.isAttending = isAttending;
 	}
 
-	public int getDinnerId() {
-		return dinnerId;
+	public Dinner getDinner() {
+		return dinner;
 	}
 
-	public void setDinnerId(int dinnerId) {
-		this.dinnerId = dinnerId;
+	public void setDinner(Dinner dinner) {
+		this.dinner = dinner;
 	}
 
 	public boolean isPlusOne() {
@@ -96,36 +114,12 @@ public class Attendee {
 		this.plusOne = plusOne;
 	}
 
-	public int getPlusOneDinnerId() {
-		return plusOneDinnerId;
+	public Dinner getPlusOneDinner() {
+		return plusOneDinner;
 	}
 
-	public void setPlusOneDinnerId(int plusOneDinnerId) {
-		this.plusOneDinnerId = plusOneDinnerId;
+	public void setPlusOneDinner(Dinner plusOneDinner) {
+		this.plusOneDinner = plusOneDinner;
 	}
-
-	@Override
-	public String toString() {
-		return "Attendee [id=" + id + ", userId=" + userId + ", weddingId=" + weddingId + ", isAttending=" + isAttending
-				+ ", dinnerId=" + dinnerId + ", plusOne=" + plusOne + ", plusOneDinnerId=" + plusOneDinnerId + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(dinnerId, id, isAttending, plusOne, plusOneDinnerId, userId, weddingId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Attendee other = (Attendee) obj;
-		return dinnerId == other.dinnerId && id == other.id && isAttending == other.isAttending
-				&& plusOne == other.plusOne && plusOneDinnerId == other.plusOneDinnerId && userId == other.userId
-				&& weddingId == other.weddingId;
-	}
+	
 }

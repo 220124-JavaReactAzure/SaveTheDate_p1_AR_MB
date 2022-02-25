@@ -1,14 +1,21 @@
 package com.revature.saveTheDate.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="servicetypes")
+@JsonIgnoreProperties(value = "service")
 public class ServiceType {
 	
 	@Id
@@ -16,13 +23,16 @@ public class ServiceType {
 	@Column(name="service_type_id")
 	private int id;
 	
-	@Column(name="service")
-	private String service;
+	@Column(name="serviceType")
+	private String serviceType;
+	
+	@OneToMany(mappedBy = "serviceType", fetch = FetchType.EAGER)
+	private List<Service> services;
 
-	public ServiceType(int id, String service) {
+	public ServiceType(int id, String serviceType) {
 		super();
 		this.id = id;
-		this.service = service;
+		this.serviceType = serviceType;
 	}
 
 	public ServiceType() {
@@ -37,11 +47,13 @@ public class ServiceType {
 		this.id = id;
 	}
 
-	public String getService() {
-		return service;
+	public String getServiceType() {
+		return serviceType;
 	}
 
-	public void setService(String service) {
-		this.service = service;
+	public void setServiceType(String serviceType) {
+		this.serviceType = serviceType;
 	}
+
+
 }
