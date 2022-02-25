@@ -17,7 +17,10 @@ public class AttendeeServices {
 
 	public boolean addAttendee(Attendee attendee) {
 		//logger.info("AttendeeServices.addAttendee called for Attendee: " + attendee);
-		return attendeeDAO.addAttendee(attendee);
+		if (isAttendeeValid(attendee){
+			return attendeeDAO.addAttendee(attendee);
+		}
+		 return false;
 	}
 
 	public List<Attendee> getAllAttendees() {
