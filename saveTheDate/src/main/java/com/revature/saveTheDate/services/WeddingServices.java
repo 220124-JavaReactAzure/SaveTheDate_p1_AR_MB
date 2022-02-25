@@ -28,7 +28,7 @@ public class WeddingServices {
 		// Check if wedding under budget then check if all services available on that date 
 		if (isWeddingValid(wedding) && isWeddingUnderBudget(wedding) && isWeddingVenueAvailable(wedding) && isWeddingCatererAvailable(wedding) && isWeddingFloristAvailable(wedding) &&
 		isWeddingPhotographerAvailable(wedding) && isWeddingPhotographerAvailable(wedding) && isWeddingVenueAVenue(wedding) && isWeddingCatererACaterer(wedding) && isWeddingFloristAFlorist(wedding) 
-		&& isWeddingPhotographerAPhotographer(wedding) && isWeddingMucicianAMucician (wedding)){
+		&& isWeddingPhotographerAPhotographer(wedding) && isWeddingMucicianAMucician (wedding) && isWeddingMakerBethrothed(wedding)){
 		weddingDAO.addWedding(wedding);
 			return true;
 		} else{
@@ -183,6 +183,14 @@ public class WeddingServices {
 		if(wedding.getMusician().getId() == 5){
 			return true;
 		} else{
+			return false;
+		}
+	}
+	
+	public boolean isWeddingMakerBethrothed(Wedding wedding) {
+		if (wedding.getUser().getRole().getRole_id() ==2) {
+			return true;
+		}else {
 			return false;
 		}
 	}
