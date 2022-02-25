@@ -16,7 +16,7 @@ private final DinnerDAO dinnerDAO;
 
 	public boolean addDinner(Dinner dinner) {
 		//logger.info("DinnerServices.addDinner was called for Dinner: " + dinner);
-		if(isDinnerValid(dinner){
+		if(isDinnerValid(dinner)){
 			return dinnerDAO.addDinner(dinner);
 		}
 		return false;

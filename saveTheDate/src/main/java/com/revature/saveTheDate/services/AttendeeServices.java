@@ -17,10 +17,7 @@ public class AttendeeServices {
 
 	public boolean addAttendee(Attendee attendee) {
 		//logger.info("AttendeeServices.addAttendee called for Attendee: " + attendee);
-		if (isAttendeeValid(attendee){
-			return attendeeDAO.addAttendee(attendee);
-		}
-		 return false;
+		return attendeeDAO.addAttendee(attendee);
 	}
 
 	public List<Attendee> getAllAttendees() {
@@ -41,17 +38,6 @@ public class AttendeeServices {
 	public void deleteAttendeeById (int id) {
 		//logger.info("AttendeeServices.deleteAttendeeById called for id: " + id);
 		attendeeDAO.deleteAttendeeById(id);
-	}
-	
-	public boolean isAttendeeValid(Attendee attendee) {
-		if(attendee.isAttending()) {
-			if (attendee.getDinner().getDinnername() == null){
-				return false;
-			} else {
-				return true;
-			}
-		}
-		return true;
 	}
 	
 }

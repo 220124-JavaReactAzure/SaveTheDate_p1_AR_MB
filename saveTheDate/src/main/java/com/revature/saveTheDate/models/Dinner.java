@@ -57,6 +57,4 @@ public class Dinner {
 	public void setDinnername(String dinnername) {
 		this.dinnername = dinnername;
 	}
-	
-
 }
