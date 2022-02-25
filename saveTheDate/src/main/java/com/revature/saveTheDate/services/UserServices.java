@@ -3,9 +3,7 @@ package com.revature.saveTheDate.services;
 import java.util.List;
 
 import com.revature.saveTheDate.daos.UserDAO;
-import com.revature.saveTheDate.models.Attendee;
 import com.revature.saveTheDate.models.User;
-import com.revature.saveTheDate.models.Wedding;
 
 public class UserServices {
 	

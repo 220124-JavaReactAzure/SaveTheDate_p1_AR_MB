@@ -34,7 +34,7 @@ public class RoleServices {
 		roleDAO.updateRoleWithSessionMethod(role);
 	}
 		
-	public void deleteRole (int id) {
+	public void deleteRoleById (int id) {
 		roleDAO.deleteRole(id);
 	}
 

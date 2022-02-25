@@ -34,8 +34,8 @@ public class ServiceServices {
 		serviceDAO.updateServiceWithSessionMethod(service);
 	}
 		
-	public void deleteService (int id) {
-		serviceDAO.deleteService(id);
+	public void deleteServiceById (int id) {
+		serviceDAO.deleteServiceById(id);
 	}
 
 }
