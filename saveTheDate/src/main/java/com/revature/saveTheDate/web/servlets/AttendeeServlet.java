@@ -125,7 +125,25 @@ public class AttendeeServlet extends HttpServlet{
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			String userIdParam = req.getParameter("userId");
+			String weddingIdParam = req.getParameter("weddingId");
+			String dinnerIdParam = req.getParameter("dinnerId");
+			String dinnerPlusOneIdParam = req.getParameter("dinnerPlusOneId");
+			
+			if(userIdParam == null || weddingIdParam == null || dinnerIdParam == null || dinnerPlusOneIdParam == null ) {
+				resp.setStatus(400);
+				resp.getWriter().write("Please include the query ?userId=#&weddingId=#&dinnerId=#&dinnerPlusOneId=#& in your url");
+				return;
+			}
+			User user = userServices.getUserById(Integer.valueOf(userIdParam));
+			Wedding wedding = weddingServices.getWeddingById(Integer.valueOf(weddingIdParam));
+			Dinner dinner = dinnerServices.getDinnerById(Integer.valueOf(dinnerIdParam));
+			Dinner dinnerPlusOne = dinnerServices.getDinnerById(Integer.valueOf(dinnerPlusOneIdParam));
 			Attendee updatedAttendee = mapper.readValue(req.getInputStream(), Attendee.class);
+			updatedAttendee.setUser(user);
+			updatedAttendee.setWedding(wedding);
+			updatedAttendee.setDinner(dinner);
+			updatedAttendee.setPlusOneDinner(dinnerPlusOne);
 
 			attendeeServices.updateAttendeeWithSessionMethod(updatedAttendee);
 			resp.setStatus(204);	

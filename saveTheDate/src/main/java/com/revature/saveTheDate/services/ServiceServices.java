@@ -37,7 +37,7 @@ private final ServiceDAO serviceDAO;
 		
 	public void deleteService (int id) {
 		//logger.info("ServiceServices.deleteService called for Service: " + id);
-		serviceDAO.deleteService(id);
+		serviceDAO.deleteServiceById(id);
 	}
 
 }
