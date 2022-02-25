@@ -1,9 +1,12 @@
 package com.revature.saveTheDate.services;
 
+
 import java.util.List;
+
 
 import com.revature.saveTheDate.daos.WeddingDAO;
 import com.revature.saveTheDate.models.Wedding;
+
 
 public class WeddingServices {
 
@@ -52,9 +55,9 @@ public class WeddingServices {
 
 	public boolean isWeddingUnderBudget(Wedding wedding){
 		logger.info("WeddingService.isWeddingUnderBudget was called for wedding: " + wedding);
-		if (serviceServices.getServiceById(wedding.getVenueId()).getCost() + serviceServices.getServiceById(wedding.getCatererId()).getCost() +
-		serviceServices.getServiceById(wedding.getFloristId()).getCost() + serviceServices.getServiceById(wedding.getPhotographerId()).getCost() +
-		serviceServices.getServiceById(wedding.getMusicianId()).getCost() > wedding.getBudget()){
+		if (wedding.getVenue().getCost() + wedding.getCaterer().getCost() +
+		wedding.getFlorist().getCost() + wedding.getPhotographer().getCost() +
+		wedding.getMusician().getCost() > wedding.getBudget()){
 			return false;
 		} else {
 			return true;
@@ -65,7 +68,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingVenueAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getVenueId() == wedding.getVenueId()){
+				if (weddingCheck.getVenue().equals(wedding.getVenue())){
 					return false;
 				}
 			}
@@ -77,7 +80,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingCatererAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getCatererId() == wedding.getCatererId()){
+				if (weddingCheck.getCaterer().equals(wedding.getCaterer())){
 					return false;
 				}
 			}
@@ -89,7 +92,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingFloristAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getFloristId() == wedding.getFloristId()){
+				if (weddingCheck.getFlorist().equals(wedding.getFlorist())){
 					return false;
 				}
 			}
@@ -101,7 +104,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingPhotographerAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getPhotographerId() == wedding.getPhotographerId()){
+				if (weddingCheck.getPhotographer().equals(wedding.getPhotographer())){
 					return false;
 				}
 			}
@@ -113,7 +116,7 @@ public class WeddingServices {
 		logger.info("WeddingService.isWeddingMusicianAvailable was called for wedding: " + wedding);
 		for (Wedding weddingCheck : getAllWeddings()){
 			if (weddingCheck.getDate().equals(wedding.getDate())){
-				if (weddingCheck.getMusicianId() == wedding.getMusicianId()){
+				if (weddingCheck.getMusician().equals(wedding.getMusician())){
 					return false;
 				}
 			}
@@ -134,7 +137,7 @@ public class WeddingServices {
 
 	public boolean isWeddingVenueAVenue (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getVenueId()).getServiceTypeId() == 1){
+		if(wedding.getVenue().getId() == 1){
 			return true;
 		} else{
 			return false;
@@ -143,7 +146,7 @@ public class WeddingServices {
 
 	public boolean isWeddingCatererACaterer (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getCatererId()).getServiceTypeId() == 2){
+		if(wedding.getCaterer().getId() == 2){
 			return true;
 		} else{
 			return false;
@@ -152,7 +155,7 @@ public class WeddingServices {
 
 	public boolean isWeddingFloristAFlorist (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getFloristId()).getServiceTypeId() == 3){
+		if(wedding.getFlorist().getId() == 3){
 			return true;
 		} else{
 			return false;
@@ -161,7 +164,7 @@ public class WeddingServices {
 
 	public boolean isWeddingPhotographerAPhotographer (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getPhotographerId()).getServiceTypeId() == 4){
+		if(wedding.getPhotographer().getId() == 4){
 			return true;
 		} else{
 			return false;
@@ -170,7 +173,7 @@ public class WeddingServices {
 
 	public boolean isWeddingMucicianAMucician (Wedding wedding){
 		logger.info("WeddingService.isWeddingVenueAVenue was called for wedding: " + wedding);
-		if(serviceServices.getServiceById(wedding.getMusicianId()).getServiceTypeId() == 5){
+		if(wedding.getMusician().getId() == 5){
 			return true;
 		} else{
 			return false;
