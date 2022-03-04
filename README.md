@@ -7,3 +7,5 @@ Tomcat, REST, Hibernate, Java, Mockito, JUnit, Git, Maven,
 Postgres SQL Database, Log4J
 
 <img width="478" alt="erd" src="https://user-images.githubusercontent.com/98355059/154528863-02cd4a76-dd14-4769-8920-eeca1d370c81.JPG">
+
+The REST server can be deployed using maven with goal tomcat7:deploy.
