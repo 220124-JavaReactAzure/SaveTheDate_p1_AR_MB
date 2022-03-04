@@ -1,6 +1,6 @@
 # SaveTheDate_p1_AR_MB
 
-My Wedding Planner app was developed for a small wedding planning company that is looking to help streamline the management and allocation of wedding resources to the betrothed. They can access various assets to be assigned to their wedding, checking asset availability dates and allowing attendees to join with their contact information, meal choices and plus one information. This RESTful application leverages a local tomcat server to handle incoming requests to thoroughly tested services that must be persisted using Hibernate and Azure SQL services.
+My Wedding Planner app was developed for a small wedding planning company that is looking to help streamline the management and allocation of wedding resources to the betrothed. They can access various assets to be assigned to their wedding, checking asset availability dates and allowing attendees to join with their contact information, meal choices and plus one information. This RESTful application leverages a local tomcat server to handle incoming requests to thoroughly tested services that must be persisted using Hibernate and Azure services.
 
 ## Environment / Technologies 
 Tomcat, REST, Hibernate, Java, Mockito, JUnit, Git, Maven, 
